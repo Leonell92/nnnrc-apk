@@ -51,8 +51,7 @@ jobs:
             --description "Automated NRC task completion bot" \
             --org com.nnnrc.automator \
             --build-number ${{ github.run_number }} \
-            --build-version "1.0.${{ github.run_number }}" \
-            --no-rich-output
+            --build-version "1.0.${{ github.run_number }}"
 
       # 8. Upload APK as a downloadable artifact
       - name: Upload APK artifact
