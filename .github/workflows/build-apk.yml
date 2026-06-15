@@ -31,11 +31,11 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # 5. Set up Flutter
+      # 5. Set up Flutter — pinned to 3.24.5 (last version compatible with Flet 0.21.2)
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.27.4'
+          flutter-version: '3.24.5'
           channel: 'stable'
           cache: true
 
@@ -51,14 +51,19 @@ jobs:
             --description "Automated NRC task completion bot" \
             --org com.nnnrc.automator \
             --build-number ${{ github.run_number }} \
-            --build-version "1.0.${{ github.run_number }}"
+            --build-version "1.0.${{ github.run_number }}" \
+            --no-rich-output
 
       # 8. Upload APK as a downloadable artifact
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: nnnrc-automator-apk
-          path: build/apk/app-release.apk
+          # Flet 0.21.2 outputs to build/apk/
+          path: |
+            build/apk/*.apk
+            build/**/*.apk
+          if-no-files-found: warn
           retention-days: 30
 
       # 9. Also try release path (flet may output to different dir)
