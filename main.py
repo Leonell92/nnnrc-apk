@@ -491,7 +491,7 @@ def main(page: ft.Page):
         divider_color=BORDER,
     )
 
-    page.add(tabs)
+    page.add(ft.SafeArea(tabs))
 
 
 if __name__ == "__main__":
