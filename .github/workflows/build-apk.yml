@@ -26,12 +26,12 @@ jobs:
           pip install flet==0.21.2
           flet --version
 
-      # 4. Java 11 — Flet 0.21.2 build templates expect Java 11, not 17
-      - name: Set up Java 11
+      # 4. Java 17 — required by package_info_plus and modern Android plugins
+      - name: Set up Java 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '11'
+          java-version: '17'
 
       # 5. Flutter 3.19.6 — the stable release when Flet 0.21.2 shipped
       - name: Set up Flutter 3.19.6
