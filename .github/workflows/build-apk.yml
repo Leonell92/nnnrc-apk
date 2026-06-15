@@ -60,7 +60,7 @@ jobs:
       - name: Build APK
         run: |
           flet build apk \
-            --project "NRC Automator" \
+            --project "Leo's NRC automator" \
             --description "Automated NRC task completion bot by Leo Emmanuel" \
             --org com.nrcautomator.app \
             --build-number ${{ github.run_number }} \

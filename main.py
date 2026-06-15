@@ -82,7 +82,7 @@ def icon_pill(icon, bg="#F0FDF4", border_color="#D1FAE5", icon_color=ACCENT,
 
 def main(page: ft.Page):
     # ── Page Setup ────────────────────────────────────────────────────────────
-    page.title         = "NRC Automator"
+    page.title         = "Leo's NRC automator"
     page.theme_mode    = ft.ThemeMode.LIGHT
     page.window_width  = 420
     page.window_height = 820
@@ -308,7 +308,7 @@ def main(page: ft.Page):
                                       padding_val=9),
                             ft.Column(
                                 [
-                                    ft.Text("NRC Automator", size=18,
+                                    ft.Text("Leo's NRC automator", size=18,
                                             weight=ft.FontWeight.W_700,
                                             color=TEXT_PRIMARY),
                                     ft.Text("by Leo Emmanuel", size=11,
