@@ -1,0 +1,70 @@
+name: Build Flet APK
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:   # allows manual trigger from GitHub UI
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout your code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Set up Python
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # 3. Install Flet CLI
+      - name: Install Flet
+        run: pip install flet==0.21.2
+
+      # 4. Set up Java (required by Android SDK)
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # 5. Set up Flutter
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.27.4'
+          channel: 'stable'
+          cache: true
+
+      # 6. Accept Android SDK licenses
+      - name: Accept Android licenses
+        run: yes | flutter doctor --android-licenses || true
+
+      # 7. Build the APK
+      - name: Build APK
+        run: |
+          flet build apk \
+            --project "NNNRC Automator" \
+            --description "Automated NRC task completion bot" \
+            --org com.nnnrc.automator \
+            --build-number ${{ github.run_number }} \
+            --build-version "1.0.${{ github.run_number }}"
+
+      # 8. Upload APK as a downloadable artifact
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nnnrc-automator-apk
+          path: build/apk/app-release.apk
+          retention-days: 30
+
+      # 9. Also try release path (flet may output to different dir)
+      - name: Find and upload APK (fallback)
+        if: failure()
+        run: |
+          find . -name "*.apk" 2>/dev/null | head -20
+          echo "---listing build dir---"
+          ls -la build/ 2>/dev/null || echo "no build dir"
